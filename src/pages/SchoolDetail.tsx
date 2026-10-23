@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { SchoolCover, SchoolLogo } from "@/components/SchoolImage";
 
 const SchoolDetail = () => {
   const [enrolling, setEnrolling] = useState(false);
@@ -284,11 +285,7 @@ const SchoolDetail = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Banner */}
       <div className="relative h-56 md:h-72 overflow-hidden">
-        {school.cover_url ? (
-          <img src={school.cover_url} alt={school.name} className="absolute inset-0 w-full h-full object-cover" />
-        ) : (
-          <div className="absolute inset-0 bg-hero-gradient" />
-        )}
+        <SchoolCover src={school.cover_url} seed={school.id} alt={school.name} />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.12),transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         <div className="absolute top-4 left-4 right-4 flex justify-between z-10">
@@ -306,23 +303,19 @@ const SchoolDetail = () => {
       <div className="container mx-auto px-4 -mt-20 relative z-10">
         {/* School Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex items-end gap-5 mb-5">
-            <div className="w-24 h-24 rounded-2xl bg-card border-4 border-background shadow-elevation-2 flex items-center justify-center flex-shrink-0">
-              {school.logo_url ? (
-                <img src={school.logo_url} alt={school.name} className="w-16 h-16 rounded-xl object-cover" />
-              ) : (
-                <GraduationCap className="w-10 h-10 text-primary" />
-              )}
+          <div className="flex items-end gap-3 sm:gap-5 mb-5">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-card border-4 border-background shadow-elevation-2 flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <SchoolLogo src={school.logo_url} alt={school.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-contain" iconClassName="w-10 h-10" />
             </div>
-            <div className="pb-1">
-              <div className="flex items-center gap-2 mb-1">
+            <div className="pb-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
                 {school.is_verified && (
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success/10 text-success text-xs font-semibold">
                     <Shield className="w-3 h-3" /> Vérifiée
                   </span>
                 )}
                 {school.is_featured && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/10 text-accent-foreground text-xs font-semibold">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent text-accent-foreground text-xs font-semibold">
                     <Award className="w-3 h-3" /> En vedette
                   </span>
                 )}
@@ -330,8 +323,8 @@ const SchoolDetail = () => {
                   {school.type}{school.category ? ` · ${school.category}` : ""}
                 </span>
               </div>
-              <h1 className="font-display text-3xl md:text-4xl italic text-foreground">{school.name}</h1>
-              <div className="flex items-center gap-4 text-muted-foreground mt-2 text-sm">
+              <h1 className="font-display text-2xl sm:text-3xl md:text-4xl italic text-foreground break-words">{school.name}</h1>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted-foreground mt-2 text-sm">
                 <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {school.city}</span>
                 {avgRating && (
                   <span className="flex items-center gap-1 font-semibold text-foreground">

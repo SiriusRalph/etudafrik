@@ -11,6 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { SchoolCover } from "@/components/SchoolImage";
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
@@ -380,10 +381,7 @@ const Dashboard = () => {
                     <Link to={`/schools/${featuredSchools[0].slug}`}
                       className="group relative block rounded-2xl overflow-hidden border border-amber-200 shadow-card hover:shadow-card-hover transition-all">
                       <div className="h-40 relative">
-                        {featuredSchools[0].cover_url
-                          ? <img src={featuredSchools[0].cover_url} alt={featuredSchools[0].name} className="absolute inset-0 w-full h-full object-cover" />
-                          : <div className="absolute inset-0 bg-hero-gradient" />
-                        }
+                        <SchoolCover src={featuredSchools[0].cover_url} seed={featuredSchools[0].id} alt={featuredSchools[0].name} />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
                         <div className="absolute inset-0 p-5 flex flex-col justify-between">
                           <span className="self-start px-2 py-0.5 rounded-full bg-amber-400 text-amber-900 text-[10px] font-bold">
@@ -408,10 +406,7 @@ const Dashboard = () => {
                       <Link to={`/schools/${school.slug}`}
                         className="group block rounded-2xl border border-amber-200 bg-card overflow-hidden shadow-card hover:shadow-card-hover transition-all">
                         <div className="h-24 relative overflow-hidden">
-                          {school.cover_url
-                            ? <img src={school.cover_url} alt={school.name} className="absolute inset-0 w-full h-full object-cover" />
-                            : <div className="absolute inset-0 bg-hero-gradient opacity-80" />
-                          }
+                          <SchoolCover src={school.cover_url} seed={school.id} alt={school.name} />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                           <span className="absolute top-2 left-2 px-1.5 py-0.5 rounded-full bg-amber-400 text-amber-900 text-[9px] font-bold">
                             ⚡ Partenaire

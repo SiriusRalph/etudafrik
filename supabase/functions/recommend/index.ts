@@ -48,7 +48,8 @@ serve(async (req) => {
       query = query.eq("city", preferredCity);
     }
 
-    const { data: allSchools } = await query.limit(50);
+    const { data: allSchools, error: schoolsError } = await query.limit(50);
+    if (schoolsError) throw new Error(`Schools query failed: ${schoolsError.message}`);
 
     if (!allSchools || allSchools.length === 0) {
       return new Response(JSON.stringify({ recommendations: [] }), {
@@ -123,7 +124,7 @@ RÈGLES ABSOLUES:
 3. Si has_matching_domain = false, ne recommande cette école QUE s'il n'y a pas assez d'écoles avec le bon domaine.
 
 Écoles disponibles (triées par correspondance domaine puis satisfaction):
-${JSON.stringify(schoolsForPrompt, null, 2)}
+${JSON.stringify(schoolsForPrompt)}
 
 Sélectionne les 5 meilleures écoles. Donne la priorité aux écoles qui correspondent au domaine "${answers.field}".
 Mentionne toujours le programme et son coût dans les raisons.
@@ -155,7 +156,8 @@ Réponds UNIQUEMENT en JSON valide sans texte avant ou après:
         "Authorization": `Bearer ${GROK_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
+        // llama-3.3-70b-versatile was shut down by Groq on 2026-08-16
+        model: "openai/gpt-oss-120b",
         messages: [
           {
             role: "system",
@@ -169,6 +171,15 @@ Réponds UNIQUEMENT en JSON valide sans texte avant ou après:
 
     const groqData = await response.json();
     console.log("Groq response:", JSON.stringify(groqData).slice(0, 500));
+    if (response.status === 429) {
+      return new Response(JSON.stringify({ error: "Trop de demandes en ce moment, réessaie dans une minute." }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (!response.ok) {
+      throw new Error(`Groq error ${response.status}: ${groqData.error?.message || "unknown"}`);
+    }
 
     const text = groqData.choices?.[0]?.message?.content || "";
     if (!text) throw new Error("Groq returned empty response");

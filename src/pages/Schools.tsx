@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
+import { SchoolCover, SchoolLogo } from "@/components/SchoolImage";
 
 const cities = ["Toutes", "Casablanca", "Rabat", "Marrakech", "Fès", "Tanger", "Agadir", "Ifrane"];
 const categories = ["Tous", "engineering", "business", "university"];
@@ -84,16 +85,10 @@ const Schools = () => {
         >
           {/* Cover / Logo area */}
           <div className="h-36 relative overflow-hidden">
-            {school.cover_url ? (
-              <img
-                src={school.cover_url}
-                alt={school.name}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-hero-gradient" />
-            )}
+            <SchoolCover src={school.cover_url} seed={school.id} alt={school.name} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            {/* Keeps the white badges readable on light photos */}
+            <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/40 to-transparent" />
 
             {/* Badges top-left */}
             <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
@@ -122,11 +117,9 @@ const Schools = () => {
             )}
 
             {/* Logo bottom-left */}
-            {school.logo_url && (
-              <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-white shadow-md flex items-center justify-center overflow-hidden">
-                <img src={school.logo_url} alt={school.name} className="w-8 h-8 object-contain" />
-              </div>
-            )}
+            <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-white shadow-md flex items-center justify-center overflow-hidden">
+              <SchoolLogo src={school.logo_url} alt={school.name} className="w-8 h-8 object-contain" iconClassName="w-5 h-5" />
+            </div>
           </div>
 
           <div className="p-5">

@@ -10,7 +10,7 @@ const benefits = [
 
 const ForSchoolsSection = () => {
   return (
-    <section className="py-24 bg-muted/50">
+    <section className="py-24 bg-muted/50 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div

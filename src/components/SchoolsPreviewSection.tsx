@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { MapPin, Star, ArrowRight, BookOpen } from "lucide-react";
+import { MapPin, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { SchoolCover } from "@/components/SchoolImage";
 
 const schools = [
   { name: "Sup de Co Marrakech", city: "Marrakech", domain: "Ingénierie/Commerce", rating: 4.7, students: 1000, tuition: "45 000 MAD/an" },
@@ -41,8 +42,8 @@ const SchoolsPreviewSection = () => {
                 to="/auth"
                 className="group block rounded-2xl border border-border bg-card overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300"
               >
-                <div className="h-32 bg-hero-gradient opacity-80 flex items-center justify-center">
-                  <BookOpen className="w-10 h-10 text-primary-foreground/60" />
+                <div className="h-32 relative overflow-hidden">
+                  <SchoolCover seed={s.name} alt={s.name} className="group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-5">
                   <h3 className="font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{s.name}</h3>
