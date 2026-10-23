@@ -17,7 +17,7 @@ The interface is in French, the main language of higher education in Morocco and
 - **AI chat assistant:** answers questions about studying in Morocco (cost of living, visas, housing, scholarships) with streamed responses.
 - **Student dashboard:** applications and their status, favorite schools, featured schools.
 - **Arrival guide** (for enrolled students): visa and residence-permit steps, monthly budget, neighborhoods and practical tips.
-- **Accounts:** email/password sign-up, plus Google and Apple sign-in through Lovable Cloud Auth.
+- **Accounts:** email/password sign-up, plus Google and Apple sign-in.
 
 ### For schools
 - **School dashboard:** manage the school profile, see applications, and run promotions (featured placement, promotional banners).
